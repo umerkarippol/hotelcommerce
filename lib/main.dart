@@ -14,7 +14,8 @@ import 'package:hotelservice/screen/auth/auth_phone.dart';
 import 'package:hotelservice/homeHotel/homescreen.dart';
 import 'package:hotelservice/screen/auth/hotel_DeTaiLS.dart';
 import 'package:hotelservice/screen/auth/hotel_registr.dart';
-import 'package:hotelservice/screen/home/dynamic/tab_bar.dart';
+import 'package:hotelservice/screen/home/home_hotel/homepageTabbar.dart';
+import 'package:hotelservice/screen/home/home_user/tab_bar.dart';
 import 'package:hotelservice/screen/home/screen_home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -107,7 +108,8 @@ class _InitializerWidgetState extends State<InitializerWidget> {
     if (userTyp == 'user') {
       Get.to(Qr_screen());
     } else if (userTyp == 'hotel') {
-      Get.to(home_screen());
+      Get.to(HOmePageTabbar());
+//Get.to(home_screen());
     }
 
     log(userTyp.toString());

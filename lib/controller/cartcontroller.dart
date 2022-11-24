@@ -12,7 +12,7 @@ import 'package:hotelservice/model/cartmodel.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:uuid/uuid.dart';
 
-import '../screen/home/dynamic/tab_bar.dart';
+import '../screen/home/home_user/tab_bar.dart';
 
 class CartViewModel extends GetxController {
   // @override

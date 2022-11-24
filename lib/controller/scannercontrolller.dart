@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:hotelservice/controller/cartcontroller.dart';
 import 'package:hotelservice/homeHotel/homescreen.dart';
 
-import '../screen/home/dynamic/tab_bar.dart';
+import '../screen/home/home_user/tab_bar.dart';
 import '../screen/home/screen_home.dart';
 
 class scannercontroller extends GetxController {

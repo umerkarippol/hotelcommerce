@@ -1,12 +1,13 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
-import '../../controller/homeController.dart';
+import '../../controller/home_DrawerController.dart';
 
 class AddAnEwProduct extends StatelessWidget {
   AddAnEwProduct({Key? key}) : super(key: key);
@@ -20,14 +21,15 @@ class AddAnEwProduct extends StatelessWidget {
         title: Text('Add A New  Product'),
       ),
       body: SafeArea(
-          child: Column(
-        children: [
-          SizedBox(
-            height: 20,
-          ),
-          SingleChildScrollView(
-            child: Form(
-              key: homeController.PUpkey,
+          child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            Form(
+              key: homeController.PupKey,
               child: Container(
                 margin: const EdgeInsets.all(15.0),
                 padding: const EdgeInsets.all(3.0),
@@ -61,10 +63,6 @@ class AddAnEwProduct extends StatelessWidget {
                       children: [
                         Column(
                           children: [
-                            Text(
-                              'Enter Product ID:',
-                              style: TextStyle(fontSize: 20),
-                            ),
                             Obx(() => Visibility(
                                 visible: homeController.AutogenButn.value,
                                 child: ElevatedButton(
@@ -83,10 +81,11 @@ class AddAnEwProduct extends StatelessWidget {
 
                         Obx(
                           () => Flexible(
-                            child: TextField(
+                            child: TextFormField(
                               enabled: homeController.textfeildEnable.value,
                               controller: homeController.UPLoadProctID,
                               decoration: InputDecoration(
+                                  labelText: 'Product id',
                                   hintText: 'Product ID',
                                   hintStyle: TextStyle(
                                       fontSize: 17,
@@ -98,6 +97,12 @@ class AddAnEwProduct extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide: BorderSide.none,
                                   )),
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return value = ('Enter Product Id!');
+                                }
+                                return null;
+                              },
                             ),
                           ),
                         ),
@@ -148,13 +153,8 @@ class AddAnEwProduct extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          ' Product Name:',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400, fontSize: 20),
-                        ),
                         Flexible(
-                          child: TextField(
+                          child: TextFormField(
                             controller: homeController.UPLoadProctName,
                             decoration: InputDecoration(
                                 hintText: 'Enter Product Name',
@@ -167,6 +167,12 @@ class AddAnEwProduct extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide.none,
                                 )),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return value = ('Enter Product Name!');
+                              }
+                              return null;
+                            },
                           ),
                         ),
                       ],
@@ -174,11 +180,7 @@ class AddAnEwProduct extends StatelessWidget {
                     SizedBox(
                       height: 10,
                     ),
-                    Text(
-                      ' Enter Product Description:',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    TextField(
+                    TextFormField(
                       minLines: 4,
                       maxLines: 6,
                       controller: homeController.UPLoadProctDEscription,
@@ -193,6 +195,12 @@ class AddAnEwProduct extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide.none,
                           )),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return value = ('Enter Product Description!');
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(
                       height: 5,
@@ -207,7 +215,7 @@ class AddAnEwProduct extends StatelessWidget {
                               fontSize: 20, fontWeight: FontWeight.w400),
                         ),
                         Flexible(
-                          child: TextField(
+                          child: TextFormField(
                             keyboardType: TextInputType.number,
                             controller: homeController.UPLoadProctPrice,
                             decoration: InputDecoration(
@@ -221,6 +229,12 @@ class AddAnEwProduct extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide.none,
                                 )),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return value = ('Enter Product Price!');
+                              }
+                              return null;
+                            },
                           ),
                         ),
                         Flexible(
@@ -250,11 +264,17 @@ class AddAnEwProduct extends StatelessWidget {
                             style: TextStyle(fontSize: 20),
                           ),
                           ElevatedButton(
-                              onPressed: () {}, child: Text('SELECT IMAGE')),
-                          Text(
-                            'FILE NAME',
-                            style: TextStyle(fontWeight: FontWeight.w200),
-                          )
+                              onPressed: () {
+                                homeController.selectFile();
+                              },
+                              child: Text('SELECT IMAGE')),
+                          Obx(() => Visibility(
+                                visible: homeController.ImagePikStatus.value,
+                                child: Icon(
+                                  Icons.check_circle,
+                                  color: Color.fromARGB(255, 13, 117, 17),
+                                ),
+                              ))
                         ],
                       ),
                     )
@@ -262,8 +282,41 @@ class AddAnEwProduct extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-        ],
+            Obx(() => ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                      primary: Color.fromARGB(255, 6, 83, 9)),
+                  onPressed: homeController.isloading.value
+                      ? null
+                      : () {
+                          homeController.Formsubmit();
+                          homeController.UpLOAdAlldAta();
+                        },
+                  icon: homeController.isloading.value
+                      ? TweenAnimationBuilder(
+                          tween: Tween(begin: 0.0, end: 1.0),
+                          duration: Duration(seconds: 4),
+                          builder: (context, value, _) => Container(
+                              height: 9,
+                              width: 9,
+                              child: CircularProgressIndicator(
+                                backgroundColor: Colors.green,
+                                strokeWidth: 2,
+                              )))
+                      : Icon(Icons.upload),
+                  label: Text(homeController.isloading.value
+                      ? 'Processing..'
+                      : 'UPLOAD'),
+                ))
+            // ElevatedButton(
+            //     onPressed: () {
+            //       homeController.Formsubmit();
+            //       homeController.UpLOAdAlldAta();
+
+            //       // homeController.uploadFile();
+            //     },
+            //     child: Text('Upload'))
+          ],
+        ),
       )),
     );
   }

@@ -1,52 +1,37 @@
 import 'dart:developer';
 
-import 'package:badges/badges.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:hotelservice/controller/cartcontroller.dart';
-import 'package:hotelservice/controller/scannercontrolller.dart';
-import 'package:hotelservice/screen/home/dynamic/home_product_view.dart';
-import 'package:hotelservice/widgets/appdrawer.dart';
+import 'package:hotelservice/controller/hotel_Homecontroller.dart';
+import 'package:hotelservice/screen/home/home_hotel/viewTab.dart';
+import 'package:hotelservice/widgets/appdrawerHotel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../cart/cartfinal.dart';
-import '../../auth/auth_phone.dart';
-
-class tabbartest extends StatefulWidget {
-  const tabbartest({Key? key}) : super(key: key);
+class HOmePageTabbar extends StatefulWidget {
+  const HOmePageTabbar({Key? key}) : super(key: key);
 
   @override
-  State<tabbartest> createState() => tabbartestState();
+  State<HOmePageTabbar> createState() => _HOmePageTabbarState();
 }
 
-scannercontroller hotelidcontroller1 = Get.put(scannercontroller());
-String doc_id = hotelidcontroller1.ScannedQrcode;
-
-class tabbartestState extends State<tabbartest> {
-  CartViewModel controllercart = Get.put(CartViewModel());
-  scannercontroller controllercart_to_id = Get.put(scannercontroller());
-
-  final _auth = FirebaseAuth.instance;
-  // dynamic getid = Get.arguments;
-
-  int _counter = 0;
-  // final List<Tab> myTabs = <Tab>[
-  //   // new Tab(text: 'Men'),
-  //   // new Tab(text: 'Women'),
-  //   // new Tab(text: 'Shirt'),
-  // ];
+class _HOmePageTabbarState extends State<HOmePageTabbar> {
+  hotelHomeController homeControllels = Get.put(hotelHomeController());
+  @override
+  void initState() {
+    log(homeControllels.SharedpreFHotelId.toString());
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('category')
-            .where('hotel_id',
-                isEqualTo: controllercart_to_id.hotel_id_fromfire)
+            .where('hotel_id', isEqualTo: homeControllels.SharedpreFHotelId)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
@@ -95,71 +80,37 @@ class tabbartestState extends State<tabbartest> {
                 //  Icon(Icons.info_sharp),
                 title: Center(
                     child: Text(
-                  controllercart_to_id.namefromfire,
+                  homeControllels.SharedpreFHotelNAMe.toString(),
                   style: TextStyle(fontSize: 27),
                 )),
-                actions: [
-                  Obx(
-                    () => Badge(
-                      showBadge:
-                          controllercart.cartProducts.length > 0 ? true : false,
-                      badgeContent: Text(
-                        controllercart.cartProducts.length.toString(),
-                        style: TextStyle(color: Colors.white, fontSize: 18),
-                      ),
-                      child: IconButton(
-                          onPressed: () {
-                            Get.to(cartfinal());
-                          },
-                          icon: Icon(
-                            Icons.shopping_cart_outlined,
-                            size: 35,
-                            color: Colors.amber,
-                          )),
-                    ),
-                  ),
+                actions: <Widget>[
                   IconButton(
-                      iconSize: 30,
-                      onPressed: () {
-                        Get.defaultDialog(
-                          backgroundColor: Color.fromARGB(255, 236, 57, 57),
-                          title: 'Alert',
-                          middleText: 'Are You Sure!\n Do You Want To Logout?',
-                          textCancel: 'Cancel',
-                          textConfirm: 'Confirm',
-                          buttonColor: Color.fromARGB(255, 169, 6, 6),
-                          cancelTextColor: Colors.white,
-                          confirmTextColor: Colors.white,
-                          onConfirm: () async {
-                            SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            //Remove String
-                            prefs.clear();
-                            log('removed usertyp-user:Success');
-                            //Remove bool
-                            prefs.remove("uSerContact");
-                            log('removed contact:Success');
-                            await _auth.signOut();
-                            Get.to(auth_phone());
-                          },
-                        );
+                      onPressed: () async {
+                        // await _auth.signOut();
+
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+
+                        prefs.remove("UserTyp");
+                        log('hotelsharedpreferenceremovedsuccessfully');
+                        prefs.remove("hotelContact");
+                        log('hotelsharedpreferenceremovedsuccessfully[Mobile]');
                       },
-                      icon: Icon(
-                        Icons.exit_to_app_outlined,
-                        color: Color.fromARGB(255, 255, 17, 0),
-                      ))
+                      icon: Icon(Icons.logout_outlined))
                 ],
+
                 backgroundColor: Color.fromARGB(255, 0, 126, 237),
                 bottom: TabBar(
                   tabs: myTabs,
                 ),
               ),
-              drawer: drawer(),
+              drawer: drawerHotel(),
               body: new TabBarView(
                 children: myTabs.map((Tab tab) {
                   print("selected item====" + tab.text.toString());
-                  return new ViewProducts(
+                  return new ViewTabHome(
                     tabitem: tab.text.toString(),
+                    hotelId: homeControllels.SharedpreFHotelId.toString(),
                   );
                   // Center(child: new Text(tab.text.toString()));
                 }).toList(),

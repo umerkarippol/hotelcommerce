@@ -16,13 +16,9 @@ class hotel_authController extends GetxController {
   TextEditingController password = TextEditingController();
   TextEditingController confirmpassword = TextEditingController();
 //Hotel BuisnesAuth
-  String? SharedpreFcoNtactHotel;
-  String? SharedpreFHotelId;
 
-  String? SharedpreFHotelNAMe;
   @override
   void onInit() {
-    getStringValuesSF_hOtel();
     // TODO: implement onInit
     super.onInit();
   }
@@ -179,19 +175,6 @@ class hotel_authController extends GetxController {
 
       // controllerss.logindata.setBool('login', false);
     }
-  }
-
-  getStringValuesSF_hOtel() async {
-    log('inside Sharedpref ///RETRIVING CONTACT DETAILS OF HOTEL...');
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    //Return String
-    // String? stringValue = prefs.getString('UserTyp');
-    SharedpreFcoNtactHotel = prefs.getString('hotelContact');
-    log('Contact fetched Succesfully');
-    SharedpreFHotelId = prefs.getString('HotelID');
-    log('Hotelid fetched Succesfully');
-    SharedpreFHotelNAMe = prefs.getString('HotelName');
-    log('HotelName fetched Succesfully');
   }
 
   removeSharedHotel() async {

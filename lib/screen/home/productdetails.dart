@@ -9,7 +9,7 @@ import 'package:hotelservice/cart/cartfinal.dart';
 import 'package:hotelservice/controller/cartcontroller.dart';
 
 import 'package:hotelservice/model/cartmodel.dart';
-import 'package:hotelservice/screen/home/dynamic/tab_bar.dart';
+import 'package:hotelservice/screen/home/home_user/tab_bar.dart';
 import 'package:hotelservice/screen/home/screen_home.dart';
 
 class Product_Details extends StatelessWidget {

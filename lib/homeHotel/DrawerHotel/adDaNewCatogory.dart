@@ -4,20 +4,21 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:hotelservice/controller/homeController.dart';
+import 'package:hotelservice/controller/home_DrawerController.dart';
+import 'package:hotelservice/controller/hotel_Homecontroller.dart';
 import 'package:hotelservice/controller/hotel_authContrlr.dart';
 
 class AddAnEWcaTegory extends StatelessWidget {
   AddAnEWcaTegory({Key? key}) : super(key: key);
   HomeController hotelHOMEController = Get.put(HomeController());
-  hotel_authController hotelAuthController = Get.put(hotel_authController());
+  hotelHomeController hotelhomeController = Get.put(hotelHomeController());
 
   @override
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> categoryDetails = FirebaseFirestore.instance
         .collection('category')
         .where("hotel_id",
-            isEqualTo: hotelAuthController.SharedpreFHotelId.toString())
+            isEqualTo: hotelhomeController.SharedpreFHotelId.toString())
         .snapshots();
     return Scaffold(
       appBar: AppBar(
@@ -50,7 +51,7 @@ class AddAnEWcaTegory extends StatelessWidget {
                     Align(
                       alignment: Alignment.topRight,
                       child: Text('QRID:' +
-                          hotelAuthController.SharedpreFHotelId.toString()),
+                          hotelhomeController.SharedpreFHotelId.toString()),
                     ),
                     SizedBox(
                       height: 30,
@@ -64,7 +65,7 @@ class AddAnEWcaTegory extends StatelessWidget {
                                 fontWeight: FontWeight.w500),
                             children: <TextSpan>[
                           TextSpan(
-                              text: hotelAuthController.SharedpreFHotelNAMe
+                              text: hotelhomeController.SharedpreFHotelNAMe
                                   .toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w300,
@@ -73,7 +74,7 @@ class AddAnEWcaTegory extends StatelessWidget {
                         ])),
                     // Text(
                     //   '    Hotel Name:' +
-                    //       hotelAuthController.SharedpreFHotelNAMe.toString(),
+                    //       hotelhomeController.SharedpreFHotelNAMe.toString(),
                     //   style:
                     //       TextStyle(fontSize: 20, fontWeight: FontWeight.w200),
                     // ),

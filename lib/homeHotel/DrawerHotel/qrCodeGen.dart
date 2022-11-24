@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:hotelservice/controller/homeController.dart';
+import 'package:hotelservice/controller/home_DrawerController.dart';
+import 'package:hotelservice/controller/hotel_Homecontroller.dart';
 import 'package:hotelservice/controller/hotel_authContrlr.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class qRcoDEgeN extends StatelessWidget {
   qRcoDEgeN({Key? key}) : super(key: key);
-  hotel_authController hotelController = Get.put(hotel_authController());
+  hotelHomeController hotelHomController = Get.put(hotelHomeController());
   HomeController hotelHOMEController = Get.put(HomeController());
 
   @override
@@ -19,14 +20,14 @@ class qRcoDEgeN extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(hotelController.SharedpreFHotelId.toString()),
+            Text(hotelHomController.SharedpreFHotelId.toString()),
             RepaintBoundary(
-              key: hotelHOMEController.key,
+              key: hotelHOMEController.ScrenShotkey,
               child: Center(
                 child: Container(
                   color: Color.fromARGB(255, 255, 255, 255),
                   child: QrImage(
-                    data: hotelController.SharedpreFHotelId.toString(),
+                    data: hotelHomController.SharedpreFHotelId.toString(),
                     size: 200,
                   ),
                 ),

@@ -143,9 +143,9 @@ class hotel_DeTaiLS extends StatelessWidget {
                                       enabled: false,
                                       // controller: hotel_contrl.buiSnsLogMOB.text,
                                       decoration: InputDecoration(
-                                        hintText: "Username:" +
-                                            hotel_contrl.SharedpreFcoNtactHotel
-                                                .toString(),
+                                        // hintText: "Username:" +
+                                        // hotel_contrl.SharedpreFcoNtactHotel
+                                        //     .toString(),
                                         prefixIcon: Icon(Icons.person_outlined),
                                         border: OutlineInputBorder(
                                           borderRadius:

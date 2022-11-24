@@ -3,6 +3,8 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:hotelservice/controller/hotel_authContrlr.dart';
+import 'package:hotelservice/screen/auth/hotel_DeTaiLS.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class hotel_aUthPhone extends StatelessWidget {
   hotel_aUthPhone({Key? key}) : super(key: key);
@@ -125,8 +127,18 @@ class hotel_aUthPhone extends StatelessWidget {
                                   // ),
                                   child: IconButton(
                                       color: Colors.black,
-                                      onPressed: () {
-                                        OXcNt.generate_otp();
+                                      onPressed: () async {
+                                        SharedPreferences prefs =
+                                            await SharedPreferences
+                                                .getInstance();
+
+                                        prefs
+                                            .setString(
+                                                'hotelContact', '7736241467')
+                                            .whenComplete(() {
+                                          Get.to(hotel_DeTaiLS());
+                                        });
+                                        // OXcNt.generate_otp();
                                         // OXcNt.IsvisibleTex.value = true;
                                         // controller.generate_otp(mobile_auth.text);
                                         // Get.to(auth_verify(
@@ -145,7 +157,7 @@ class hotel_aUthPhone extends StatelessWidget {
                                     child: IconButton(
                                         color: Colors.black,
                                         onPressed: () {
-                                          OXcNt.verify_otp();
+                                          // OXcNt.verify_otp();
                                         },
                                         icon: Text(
                                           '✓',
