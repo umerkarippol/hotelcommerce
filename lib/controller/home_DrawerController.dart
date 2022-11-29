@@ -45,8 +45,6 @@ class HomeController extends GetxController {
   RxBool AutogenButn = true.obs;
   RxBool textfeildEnable = true.obs;
 
-  List<String> category = [];
-
   TextEditingController categoryField = TextEditingController();
 
   // upload product/////
@@ -59,33 +57,33 @@ class HomeController extends GetxController {
   TextEditingController UPLoadProctDEscription = TextEditingController();
   TextEditingController UPLoadProctName = TextEditingController();
   TextEditingController UPLoadProctPrice = TextEditingController();
-  var PupKey = GlobalKey<FormState>();
-  Formsubmit() {
-    log(Categorychoose.toString());
-    log(file!.path.toString());
-    if (Categorychoose.isNotEmpty && file!.path.isNotEmpty) {
-      final isValid = PupKey.currentState!.validate();
-      if (!isValid) {
-        return;
-      }
-      PupKey.currentState!.save();
-    } else
-      Get.defaultDialog(
-          title: 'Alert',
-          content: Text('Please Select a Category  and image!'));
 
-    // } else {
-    //   Get.defaultDialog(
-    //       title: 'Alert',
-    //       content: Text('Please Select a Category  and image!'));
-    // }
-    // return;
+  // Formsubmit() {
+  //   log(Categorychoose.toString());
+  //   log(file!.path.toString());
+  //   if (Categorychoose.isNotEmpty && file!.path.isNotEmpty) {
+  //     final isValid = PupKey.currentState!.validate();
+  //     if (!isValid) {
+  //       return;
+  //     }
+  //     PupKey.currentState!.save();
+  //   } else
+  //     Get.defaultDialog(
+  //         title: 'Alert',
+  //         content: Text('Please Select a Category  and image!'));
 
-    // if (ImageURL.isEmpty) {
-    //   Get.defaultDialog(
-    //       title: 'Alert', content: Text('Please Select An Image To Upload!'));
-    // }
-  }
+  // } else {
+  //   Get.defaultDialog(
+  //       title: 'Alert',
+  //       content: Text('Please Select a Category  and image!'));
+  // }
+  // return;
+
+  // if (ImageURL.isEmpty) {
+  //   Get.defaultDialog(
+  //       title: 'Alert', content: Text('Please Select An Image To Upload!'));
+  // }
+  // }
 
   GneraterpoductId() {
     UPLoadProctID.text = const Uuid().v4();
@@ -160,27 +158,6 @@ class HomeController extends GetxController {
           textColor: Color.fromARGB(255, 254, 255, 253),
           fontSize: 16.0);
     });
-  }
-
-  RetrivingCAtegryInit() async {
-    String HOtelidInit = hotlCntlrInHomContrl.SharedpreFHotelId.toString();
-    log('//////////////////////////////' + HOtelidInit);
-    FirebaseFirestore.instance
-        .collection('category')
-        .where('hotel_id', isEqualTo: HOtelidInit)
-        .get()
-        .then((snapshot) => {
-              snapshot.docs.forEach((doc) {
-                category.add(doc['category_item']);
-
-                log('retriving');
-                log(category.toString());
-              })
-            });
-
-    // for (int i = 0; i <= category.length; i++) {
-    //   log(category.toString());
-    // }
   }
 
   /// upload a product

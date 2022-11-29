@@ -19,19 +19,41 @@ class HOmePageTabbar extends StatefulWidget {
 
 class _HOmePageTabbarState extends State<HOmePageTabbar> {
   hotelHomeController homeControllels = Get.put(hotelHomeController());
+
+  String? SharedpreFHotelId;
   @override
   void initState() {
-    log(homeControllels.SharedpreFHotelId.toString());
+    retriv();
+    log('inside the inintstate in hotelHomeController');
+    print('hello inint in hotel home tab');
+
+    print('hello inint in hotel home tab');
+    //Get.find<hotelHomeController>().RetrivingCAtegryInit();
+
     // TODO: implement initState
     super.initState();
   }
 
+  retriv() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Return String
+    // String? stringValue = prefs.getString('UserTyp');
+
+    setState(() {
+      SharedpreFHotelId = prefs.getString('HotelID');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    // retriv();
+    log('{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{' +
+        SharedpreFHotelId.toString());
+    Get.find<hotelHomeController>().getStringValuesSF_hOtel();
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('category')
-            .where('hotel_id', isEqualTo: homeControllels.SharedpreFHotelId)
+            .where('hotel_id', isEqualTo: SharedpreFHotelId)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
@@ -56,6 +78,8 @@ class _HOmePageTabbarState extends State<HOmePageTabbar> {
             length: myTabs.length,
             child: Scaffold(
               appBar: AppBar(
+                backgroundColor: Color.fromARGB(255, 21, 114, 244),
+                elevation: 0,
                 // leading: IconButton(
                 //     onPressed: () {
                 //       Get.defaultDialog(
@@ -99,8 +123,16 @@ class _HOmePageTabbarState extends State<HOmePageTabbar> {
                       icon: Icon(Icons.logout_outlined))
                 ],
 
-                backgroundColor: Color.fromARGB(255, 0, 126, 237),
+                // backgroundColor: Color.fromARGB(255, 0, 126, 237),
                 bottom: TabBar(
+                  labelColor: Colors.redAccent,
+                  unselectedLabelColor: Colors.white,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicator: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10)),
+                      color: Colors.white),
                   tabs: myTabs,
                 ),
               ),

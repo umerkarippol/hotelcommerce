@@ -9,7 +9,9 @@ import 'package:hotelservice/homeHotel/DrawerHotel/addAnEwProduct.dart';
 import 'package:hotelservice/homeHotel/DrawerHotel/qrCodeGen.dart';
 import 'package:hotelservice/screen/myorders/MyOrders_.dart';
 
+import '../homeHotel/AddProductDialog.dart';
 import '../screen/home/myorders.dart';
+import '../screen/myorders/hotel_order/hotelorder.dart';
 
 class drawerHotel extends StatelessWidget {
   drawerHotel({Key? key}) : super(key: key);
@@ -46,6 +48,7 @@ class drawerHotel extends StatelessWidget {
               style: TextStyle(fontSize: 25),
             ),
             onTap: () {
+              Get.to(Hotel_order());
               // Get.to(mYOrders_());
             },
           ),
@@ -63,8 +66,9 @@ class drawerHotel extends StatelessWidget {
               style: TextStyle(fontSize: 25),
             ),
             onTap: () {
-              homecontroller.RetrivingCAtegryInit();
-              Get.to(AddAnEwProduct());
+              // homecontroller.RetrivingCAtegryInit();
+              Get.dialog(AddProductDialog());
+              //   Get.to(AddAnEwProduct());
             },
           ),
           SizedBox(

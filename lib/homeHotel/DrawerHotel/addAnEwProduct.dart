@@ -6,6 +6,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:hotelservice/controller/hotel_Homecontroller.dart';
 
 import '../../controller/home_DrawerController.dart';
 
@@ -13,6 +14,7 @@ class AddAnEwProduct extends StatelessWidget {
   AddAnEwProduct({Key? key}) : super(key: key);
 
   HomeController homeController = Get.put(HomeController());
+  hotelHomeController hotelhomecontrl = Get.put(hotelHomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class AddAnEwProduct extends StatelessWidget {
               height: 20,
             ),
             Form(
-              key: homeController.PupKey,
+              // key: homeController.PupKey,
               child: Container(
                 margin: const EdgeInsets.all(15.0),
                 padding: const EdgeInsets.all(3.0),
@@ -126,7 +128,7 @@ class AddAnEwProduct extends StatelessWidget {
                                                 Color.fromARGB(255, 0, 0, 0)),
                                       ),
                                       // value: controller.valuechoose.value,
-                                      items: homeController.category
+                                      items: hotelhomecontrl.category
                                           .map((String value1) {
                                         return DropdownMenuItem<String>(
                                           value: value1,
@@ -288,7 +290,7 @@ class AddAnEwProduct extends StatelessWidget {
                   onPressed: homeController.isloading.value
                       ? null
                       : () {
-                          homeController.Formsubmit();
+                          //   homeController.Formsubmit();
                           homeController.UpLOAdAlldAta();
                         },
                   icon: homeController.isloading.value
